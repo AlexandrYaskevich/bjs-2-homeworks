@@ -36,9 +36,14 @@ function getTriangle(a, b, c) {
     try {
         return new Triangle(a, b, c);
         } catch(e) {
-          let triangleForAnswer = new Triangle (a, b, c); 
-          triangleForAnswer.area = "Треугольник с такими сторонами не существует";
-          triangleForAnswer.perimeter = "Треугольник с такими сторонами не существует";
+          let triangleForAnswer = {
+          get area() {
+            return "Ошибка! Треугольник не существует";
+          },
+          get perimeter(){
+            return "Ошибка! Треугольник не существует";
+          },
+          }
           return triangleForAnswer;
     }
 }
