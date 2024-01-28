@@ -9,15 +9,15 @@ class PrintEditionItem {
     
     fix(){
         let numberOfstate = this._state * 1.5;
-        return numberOfstate;
+        this._state = numberOfstate;
     }
 
     set state(numberOfstate){
         if(numberOfstate < 0) {
-            return 0;
+            this._state = 0;
         }
         else if(numberOfstate > 100) {
-            return 100;
+            this._state = 100;
         }
         else {
             return numberOfstate;
@@ -78,20 +78,20 @@ class Library {
 
     findBookBy(type, value) {
         for (let i = 0; i < this.books.length; i++) {
-                if (this.books[i].hasOwnProperty(type) && this.books[i].name === value) {
+                if (tthis.books[i][type] === value) {
                     return this.books[i];
                 }
-                return null;
              }
-        }
+    return null;             
+    }
     
     giveBookByName(bookName){
         for (let i = 0; i < this.books.length; i++) {
             if(this.books[i].name === bookName) {
-                delete this.books[i];
+                this.books.splice([i], 1);
                 return this.books[i];
                 }
-            return null;
         }
+     return null;
     }
 }
