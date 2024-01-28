@@ -19,9 +19,6 @@ class PrintEditionItem {
         else if(numberOfstate > 100) {
             this._state = 100;
         }
-        else {
-            return numberOfstate;
-        }
     }
     get state() {
         return this._state;
