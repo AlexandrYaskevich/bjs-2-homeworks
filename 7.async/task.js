@@ -1,65 +1,63 @@
 class AlarmClock {
-    constructor(alarmCollection, intervalId) {
-    this.alarmCollection = [];
-    this.intervalId = null;
-    }
+	constructor() {
+		this.alarmCollection = [];
+		this.intervalId = null;
+	}
 
-    addClock(addTime, addCallback) {
-        let alarm = {
-            callback : addCallback,
-            time : addTime,
-            canCall : true
-         }
-        if(!addTime || !addCallback) {
-          throw new Error('Отсутствуют обязательные аргументы'); 
-        }
-        for (let i = 0; i < this.alarmCollection.length; i++) {
-            if (this.alarmCollection[i].time === addTime) {
-                console.warn('Уже присутствует звонок на это же время');
-            }
-         }
+	addClock(addTime, addCallback) {
+		if (!addTime || !addCallback) {
+			throw new Error('Отсутствуют обязательные аргументы');
+		}
 
-        this.alarmCollection.push(alarm);
-    }
+		if (this.alarmCollection.some((element) => {element=== addTime})) {
+			console.warn('Уже присутствует звонок на это же время');
+    	}
 
-    removeClock(delTime) {
-        for(let i = 0; i < this.alarmCollection.length; i++) {
-            if(this.alarmCollection[i].time === delTime) {
-                this.alarmCollection.splice([i], 1);
-            }
-        }
-    }
+		this.alarmCollection.push({
+			callback: addCallback,
+			time: addTime,
+			canCall: true
+		});
+	}
 
-    getCurrentFormattedTime() {
-        let date = new Date();
-        return `${date.getHours()}:${date.getMinutes()}`;
-    }
+	removeClock(delTime) {
+        this.alarmCollection = this.alarmCollection.filter(item => item.time != delTime);
+	}
 
-    start() {
-        if(this.intervalId) {
-            return;
-        }
-        this.intervalId = setInterval(this.alarmCollection.forEach((element) => {
+	getCurrentFormattedTime() {
+		return  new Date().toLocaleTimeString("ru-Ru", {
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+		
+	}
+
+	start() {
+		if (this.intervalId) {
+			return;
+		}
+        this.alarmCollection.forEach((element) => {
             if (element.time === this.getCurrentFormattedTime() && element.canCall) {
             element.canCall = false;
-            element.callback;
+            element.callback()
             }
-            }), 1000);
-        }
+            })
 
-    stop() {
-        clearInterval(this.intervalId);
-        this.intervalId = null;
-    }
-    resetAllCalls() {
-        this.alarmCollection.forEach((element) => {
-            element.canCall = true;
-            }); 
-    }
+	}
 
-    clearAlarms() {
-        this.alarmCollection.stop;
-        this.alarmCollection = [];
-    }
+	stop() {
+		clearInterval(this.intervalId);
+		this.intervalId = null;
+	}
+	resetAllCalls() {
+		this.alarmCollection.forEach((element) => {
+			element.canCall = true;
+		});
+	}
+
+	clearAlarms() {
+		stop();
+		this.alarmCollection = [];
+	}
 
 }
